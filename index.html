@@ -1,108 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Lab 9</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 9</title>
+		<style>
+			button {
+				margin: 3px;
+			}
 
-  <style>
-    button {
-      margin: 3px;
-    }
+			button:hover {
+				cursor: pointer;
+			}
 
-    button:hover {
-      cursor: pointer;
-    }
+			#first-num,
+			#second-num {
+				width: 60px;
+			}
 
-    #first-num,
-    #second-num {
-      width: 60px;
-    }
+			output {
+				border: 1px solid gray;
+				display: block;
+				height: 18px;
+				margin-top: 5px;
+				padding: 5px;
+				width: 240px;
+			}
 
-    output {
-      border: 1px solid gray;
-      display: block;
-      height: 18px;
-      margin-top: 5px;
-      padding: 5px;
-      width: 240px;
-    }
+			main {
+				width: 800px;
+			}
 
-    main {
-      width: 800px;
-    }
+			#error-btns {
+				column-gap: 5px;
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 30px;
+				row-gap: 5px;
+			}
 
-    #error-btns {
-      column-gap: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 30px;
-      row-gap: 5px;
-    }
+			#error-btns > * {
+				padding: 8px 2px;
+				width: 122px;
+			}
+		</style>
+		<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+		<script>
+			window.TrackJS &&
+				TrackJS.install({
+					token: "680e8af4d25a468d9612d94571c8932e",
+					// for more configuration options, see https://docs.trackjs.com
+				});
+		</script>
+	</head>
 
-    #error-btns>* {
-      padding: 8px 2px;
-      width: 122px;
-    }
-  </style>
-</head>
+	<body>
+		<main>
+			<form>
+				<fieldset>
+					<legend>Error Calculator</legend>
+					<input name="first-num" id="first-num" />
+					<select name="operator" id="operator">
+						<option>+</option>
+						<option>-</option>
+						<option>*</option>
+						<option>/</option>
+					</select>
+					<input name="second-num" id="second-num" />
+					<button id="calculate">Calculate</button>
+					<br />
+					<output></output>
+				</fieldset>
+			</form>
 
-<body>
-  <main>
-    <form>
-      <fieldset>
-        <legend>Error Calculator</legend>
-        <input name="first-num" id="first-num" />
-        <select name="operator" id="operator">
-          <option>+</option>
-          <option>-</option>
-          <option>*</option>
-          <option>/</option>
-        </select>
-        <input name="second-num" id="second-num" />
-        <button id="calculate">Calculate</button>
-        <br />
-        <output></output>
-      </fieldset>
-    </form>
+			<section id="error-btns">
+				<button>Console Log</button>
+				<button>Console Error</button>
+				<button>Console Count</button>
+				<button>Console Warn</button>
+				<button>Console Assert</button>
+				<button>Console Clear</button>
+				<button>Console Dir</button>
+				<button>Console dirxml</button>
+				<button>Console Group Start</button>
+				<button>Console Group End</button>
+				<button>Console Table</button>
+				<button>Start Timer</button>
+				<button>End Timer</button>
+				<button>Console Trace</button>
+				<button>Trigger a Global Error</button>
+			</section>
+		</main>
 
-    <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
-    </section>
-  </main>
+		<script>
+			let form = document.querySelector("form");
+			form.addEventListener("submit", (e) => {
+				e.preventDefault();
+				let output = document.querySelector("output");
+				let firstNum = document.querySelector("#first-num").value;
+				let secondNum = document.querySelector("#second-num").value;
+				let operator = document.querySelector("#operator").value;
+				output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+				session.push({
+					x: firstNum,
+					operation: operator,
+					y: secondNum,
+					final: eval(`${firstNum} ${operator} ${secondNum}`),
+				});
+			});
 
-  <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
+			let errorBtns = Array.from(document.querySelectorAll("#error-btns > button"));
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+			//console log functionality
+			let log = errorBtns[0].addEventListener("click", () => {
+				console.log("Console Log Demo");
+			});
 
-    // Start your code here
-    // You may move this JS to another file if you wish
-  </script>
-</body>
+			//console error functionality
+			let error = errorBtns[1].addEventListener("click", () => {
+				console.error("Console Error Demo");
+			});
 
+			//console count functionality
+			let count = errorBtns[2].addEventListener("click", () => {
+				console.count("Count Button");
+			});
+
+			//console warn functionality
+			let warn = errorBtns[3].addEventListener("click", () => {
+				console.warn("Console Warn Button");
+			});
+
+			//console assert functionality
+			let assert = errorBtns[4].addEventListener("click", () => {
+				let x = 5;
+				let y = 3;
+				const reason = "expected x to be less than or equal to y";
+				console.assert(x <= y, { x, y, reason });
+			});
+
+			//console clear functionality
+			let clear = errorBtns[5].addEventListener("click", () => {
+				console.clear();
+			});
+
+			//console dir functionalty
+			let dir = errorBtns[6].addEventListener("click", () => {
+				console.dir(errorBtns[6]);
+			});
+
+			//console dirxml functionality
+			let dirxml = errorBtns[7].addEventListener("click", () => {
+				console.dirxml(errorBtns[7]);
+			});
+
+			const groupLabel = "test label for group";
+
+			//console group start functionality
+			let groupStart = errorBtns[8].addEventListener("click", () => {
+				console.group(groupLabel);
+			});
+
+			//console group end functionality
+			let groupEnd = errorBtns[9].addEventListener("click", () => {
+				console.groupEnd(groupLabel);
+			});
+
+			//session calculations
+			let session = [
+				{
+					x: 1,
+					operation: "+",
+					y: 2,
+					final: "3",
+				},
+			];
+
+			//console table functionality
+			let table = errorBtns[10].addEventListener("click", () => {
+				console.table(session);
+			});
+
+			//start timer functionality
+			let startTimer = errorBtns[11].addEventListener("click", () => {
+				console.time();
+			});
+			//end timer functinlaity
+			let endTimer = errorBtns[12].addEventListener("click", () => {
+				console.timeEnd();
+			});
+
+			//example functions
+			const bottom = () => {
+				middle();
+			};
+			const middle = () => {
+				top1();
+			};
+			const top1 = () => {
+				console.trace();
+			};
+			//console trace functionality
+			let trace = errorBtns[13].addEventListener("click", () => {
+				bottom();
+			});
+
+			//my custom error
+			class myError extends Error {
+				constructor(message) {
+					super(message);
+					this.name = "myError";
+				}
+			}
+
+			/**
+			 * global error functionality. In this functionality, I have
+			 * done the work for steps 3-5
+			 * step 3: I have setup a try-catch-finally flow in order to check
+			 * for errors. My code tries to add inner text to a button if it exists.
+			 * If it doesn't exists, throw error to catch. Final block will always run
+			 *
+			 * step 4: above i have made my custom error class. I will throw my custom error
+			 * if the button does not exist
+			 *
+			 * step 5: I have setup TrackJS and will report if an instance of MyError is thrown
+			 */
+			let global = errorBtns[14].addEventListener("click", () => {
+				try {
+					let nonExistant = document.getElementById("non-existant");
+					// Throw my custom error if the element does not exist
+					if (!nonExistant) {
+						TrackJS.track("Testing TrackJS!");
+						throw new myError("'non-existant' element not found.");
+					}
+					nonExistant.innerText = "hhihi";
+				} catch (error) {
+					// check if custom error happened
+					console.log("error is caught in this block");
+					if (error instanceof myError) {
+						console.error(`myError Error: ${error.message}`);
+					} else {
+						//other error
+						console.error(`General Error: ${error.message}`);
+					}
+				} finally {
+					console.log("an error was thrown. Check error message for more information");
+				}
+			});
+		</script>
+	</body>
 </html>
